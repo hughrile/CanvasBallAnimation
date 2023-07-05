@@ -4,6 +4,7 @@ var canvas = document.querySelector('canvas');
     canvas.height = window.innerHeight;
 
 var c = canvas.getContext('2d');
+
 /*
 var generateShapes = function(q) {
     c.clearRect(0, 0, window.innerWidth, window.innerHeight);
@@ -50,6 +51,8 @@ function Circle(x, y, dx, dy, radius, fillColor) { // circle object
     this.dy = dy;
     this.radius = radius;
     this.fillColor = fillColor;
+    var d = 0;
+    var timeVar = 0;
 
     this.draw = function() {
         c.beginPath();
@@ -76,38 +79,42 @@ function Circle(x, y, dx, dy, radius, fillColor) { // circle object
         if (this.y > innerHeight + 1) {
             this.y = randomValidY();
         }
-    
         this.x += this.dx;
         this.y += this.dy;
 
+        this.dy = this.dy * 0.99;
+        this.dy += 0.3;
+        
         this.draw();
     }
 }
 
 var circleArray = [];
-var circleQuantity = 300;
+var circleQuantity = 10;
 
 for (var i = 0; i < circleQuantity; i++) {
     var radius = 10;
     var x = randomValidX();
     var y = randomValidY();
-    var dx = (Math.random() - 0.5) * 4;
-    var dy = (Math.random() - 0.5) * 4;
+    var dx = (Math.random() - 0.5) * 5;
+    var dy = (Math.random() - 0.5) * 2;
     var rv = Math.random() * 255;
     var gv = Math.random() * 255;
     var bv = Math.random() * 255;
     var fillColor = `rgba(${rv},${gv},${bv},1)`;
     circleArray.push(new Circle(x, y, dx, dy, radius, fillColor));
 }
+
+
 var wait = 0;
+var timeVar = 0;
+
 function animate() {
     requestAnimationFrame(animate);
     c.clearRect(0, 0, innerWidth, innerHeight);
     for (var i= 0; i < circleArray.length; i++) {
         circleArray[i].update();
     }
-
-    console.log(wait);
 
     if (wait < 20) {
         wait++
@@ -119,8 +126,6 @@ function animate() {
     } else {
         wait = 0
     }
-    
-       
 
     
     /*
